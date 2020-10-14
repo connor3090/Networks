@@ -1,8 +1,8 @@
-import java.io.*;  // for ByteArrayOutputStream and DataOutputStream
+import java.io.*; // for ByteArrayOutputStream and DataOutputStream
 
 public class RequestEncoderBin implements RequestEncoder, RequestBinConst {
 
-  private String encoding;  // Character encoding
+  private String encoding; // Character encoding
 
   public RequestEncoderBin() {
     encoding = DEFAULT_ENCODING;
@@ -22,11 +22,11 @@ public class RequestEncoderBin implements RequestEncoder, RequestBinConst {
     out.writeInt(request.zipCode);
     byte flags = 0;
     if (request.single)
-	flags = SINGLE_FLAG;
+      flags = SINGLE_FLAG;
     if (request.rich)
-	flags |= RICH_FLAG;
+      flags |= RICH_FLAG;
     if (request.female)
-	flags |= FEMALE_FLAG;
+      flags |= FEMALE_FLAG;
     out.writeByte(flags);
 
     byte[] encodedLastname = request.lastName.getBytes(encoding);
