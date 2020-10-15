@@ -23,7 +23,7 @@ public class RecvUDP {
       // RequestDecoder decoder = new RequestDecoderBin();
       Request receivedRequest = decoder.decode(packet);
 
-      System.out.println("Received Binary-Encoded Friend");
+      System.out.println("Received Binary-Encoded Request");
       System.out.println(receivedRequest);
     }
 
