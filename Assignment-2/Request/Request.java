@@ -1,12 +1,14 @@
 public class Request {
 
+    public short RID;
     public int x;
     public int a3;
     public int a2;
     public int a1;
     public int a0;
 
-    public Request(int x, int a3, int a2, int a1, int a0) {
+    public Request(short RID, int x, int a3, int a2, int a1, int a0) {
+        this.RID = RID;
         this.x = x;
         this.a3 = a3;
         this.a2 = a2;
@@ -29,7 +31,8 @@ public class Request {
         if (a0 > 0) {
             value += " + " + a0 + EOLN;
         }
-        value += "Solving for x = " + x;
+        value += "Solving for x = " + x + EOLN;
+        value += "Request ID = " + RID;
         return value;
     }
 }

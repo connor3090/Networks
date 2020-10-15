@@ -10,8 +10,8 @@ public class SendUDP {
 
     InetAddress destAddr = InetAddress.getByName(args[0]); // Destination address
     int destPort = Integer.parseInt(args[1]); // Destination port
-
-    Request request = new Request(1234567890987654L, "Alice Adams", (short) 777, 90007, true, true, false);
+    short RID = 45;
+    Request request = new Request(RID, 5, 8, 3, 2, 9);
 
     DatagramSocket sock = new DatagramSocket(); // UDP socket for sending
 
