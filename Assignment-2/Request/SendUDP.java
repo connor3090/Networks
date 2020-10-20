@@ -1,5 +1,7 @@
 import java.net.*; // for DatagramSocket, DatagramPacket, and InetAddress
 import java.io.*; // for IOException
+import java.util.Scanner;
+import java.util.Random;
 
 public class SendUDP {
 
@@ -10,19 +12,55 @@ public class SendUDP {
 
     InetAddress destAddr = InetAddress.getByName(args[0]); // Destination address
     int destPort = Integer.parseInt(args[1]); // Destination port
-    short RID = 45;
-    Request request = new Request(RID, 5, 8, 3, 2, 9);
+    boolean accept = true;
+    Scanner reader = new Scanner(System.in);
+    Random rand = new Random();
+    short RID = (short) rand.nextInt(Short.MAX_VALUE + 1);
 
-    DatagramSocket sock = new DatagramSocket(); // UDP socket for sending
+    int x;
+    int a0;
+    int a1;
+    int a2;
+    int a3;
+    String yn;
 
-    // Use the encoding scheme given on the command line (args[2])
-    RequestEncoder encoder = (args.length == 3 ? new RequestEncoderBin(args[2]) : new RequestEncoderBin());
+    while (accept) {
+      System.out.print("Enter a value x to solve for: ");
+      x = reader.nextInt();
 
-    byte[] codedRequest = encoder.encode(request); // Encode friend
+      System.out.print("\nEnter a value for a0: ");
+      a0 = reader.nextInt();
 
-    DatagramPacket message = new DatagramPacket(codedRequest, codedRequest.length, destAddr, destPort);
-    sock.send(message);
+      System.out.print("\nEnter a value for a1: ");
+      a1 = reader.nextInt();
 
-    sock.close();
+      System.out.print("\nEnter a value for a2: ");
+      a2 = reader.nextInt();
+
+      System.out.print("\nEnter a value for a3: ");
+      a3 = reader.nextInt();
+
+      Request request = new Request(RID, x, a3, a2, a1, a0);
+
+      DatagramSocket sock = new DatagramSocket(); // UDP socket for sending
+
+      // Use the encoding scheme given on the command line (args[2])
+      RequestEncoder encoder = (args.length == 3 ? new RequestEncoderBin(args[2]) : new RequestEncoderBin());
+
+      byte[] codedRequest = encoder.encode(request); // Encode friend
+
+      DatagramPacket message = new DatagramPacket(codedRequest, codedRequest.length, destAddr, destPort);
+      sock.send(message);
+
+      sock.close();
+
+      System.out.print("Would you like to send another request? (yes/no): ");
+      yn = reader.next();
+      System.out.println(yn);
+      if (!yn.equals("yes")) {
+        accept = false;
+      }
+      RID++;
+    }
   }
 }
