@@ -39,7 +39,10 @@ public class SendUDP {
 
       System.out.print("\nEnter a value for a3: ");
       a3 = reader.nextInt();
-
+      
+      byte[] preChecksum = {(byte)RID, x, a3, a2, a1, a0);
+      byte checksum = checksum(preChecksum);
+      
       Request request = new Request(RID, x, a3, a2, a1, a0);
 
       DatagramSocket sock = new DatagramSocket(); // UDP socket for sending
@@ -63,4 +66,16 @@ public class SendUDP {
       RID++;
     }
   }
+    public static byte checksum(byte[] message) {
+        short checksum = 0x0;
+        for (byte b : message) {
+            checksum += b;
+            if (checksum > 0xFF) {
+                checksum -= 0x100;
+                checksum += 0x1;
+            }
+        }
+
+        return (byte)~checksum;
+    }
 }
