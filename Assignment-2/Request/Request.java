@@ -7,13 +7,14 @@ public class Request {
     public int a1;
     public int a0;
 
-    public Request(short RID, int x, int a3, int a2, int a1, int a0) {
+    public Request(short RID, int x, int a3, int a2, int a1, int a0, byte checksum) {
         this.RID = RID;
         this.x = x;
         this.a3 = a3;
         this.a2 = a2;
         this.a1 = a1;
         this.a0 = a0;
+        this.checksum = checksum;
     }
 
     public String toString() {
