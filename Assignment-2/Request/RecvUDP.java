@@ -65,7 +65,7 @@ public class RecvUDP {
     }
 
   }
-      public static float calculator(Request request) {
+  public static float calculator(Request request) {
         int x = request.x;
         int a3 = request.a3;
         int a2 = request.a2;
@@ -83,7 +83,7 @@ public class RecvUDP {
 
     }
 
-    public static byte checksum(byte[] message) {
+  public static byte checksum(byte[] message) {
         short checksum = 0x0;
         for (byte b : message) {
             checksum += b;
