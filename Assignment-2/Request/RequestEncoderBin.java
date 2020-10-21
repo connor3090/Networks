@@ -18,7 +18,7 @@ public class RequestEncoderBin implements RequestEncoder, RequestBinConst {
     DataOutputStream out = new DataOutputStream(buf);
 
     // Writing Total Message Length
-    out.writeByte(9);
+    out.writeByte(request.length);
 
     out.writeShort(request.RID);
     out.writeByte(request.x);
