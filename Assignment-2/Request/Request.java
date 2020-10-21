@@ -1,5 +1,6 @@
 public class Request {
-
+    
+    public byte length;
     public short RID;
     public int x;
     public int a3;
@@ -8,6 +9,7 @@ public class Request {
     public int a0;
 
     public Request(short RID, int x, int a3, int a2, int a1, int a0, byte checksum) {
+        this.length=9;
         this.RID = RID;
         this.x = x;
         this.a3 = a3;
