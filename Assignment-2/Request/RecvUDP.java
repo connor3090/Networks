@@ -65,4 +65,34 @@ public class RecvUDP {
     }
 
   }
+      public static float calculator(Request request) {
+        int x = request.x;
+        int a3 = request.a3;
+        int a2 = request.a2;
+        int a1 = request.a1;
+        int a0 = request.a0;
+
+        float result = 0;
+        result += x * Math.pow(a3, 3);
+        result += x * Math.pow(a2, 2);
+        result += x * a1;
+        result += a0;
+
+
+        return result;
+
+    }
+
+    public static byte checksum(byte[] message) {
+        short checksum = 0x0;
+        for (byte b : message) {
+            checksum += b;
+            if (checksum > 0xFF) {
+                checksum -= 0x100;
+                checksum += 0x1;
+            }
+        }
+
+        return (byte)~checksum;
+    }
 }
