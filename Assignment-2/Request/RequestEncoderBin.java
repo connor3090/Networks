@@ -26,6 +26,7 @@ public class RequestEncoderBin implements RequestEncoder, RequestBinConst {
     out.writeByte(request.a2);
     out.writeByte(request.a1);
     out.writeByte(request.a0);
+    out.writeByte(request.checksum);
     out.flush();
     return buf.toByteArray();
   }
