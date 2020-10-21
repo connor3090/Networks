@@ -40,7 +40,7 @@ public class SendUDP {
       System.out.print("\nEnter a value for a3: ");
       a3 = reader.nextInt();
       
-      byte[] preChecksum = {(byte)RID, x, a3, a2, a1, a0);
+      byte[] preChecksum = {9, (byte)RID, x, a3, a2, a1, a0);
       byte checksum = checksum(preChecksum);
       
       Request request = new Request(RID, x, a3, a2, a1, a0);
