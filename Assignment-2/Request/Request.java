@@ -7,6 +7,7 @@ public class Request {
     public int a2;
     public int a1;
     public int a0;
+    public byte checksum;
 
     public Request(short RID, int x, int a3, int a2, int a1, int a0, byte checksum) {
         this.length=9;
