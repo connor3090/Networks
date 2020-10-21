@@ -41,7 +41,8 @@ public class RequestDecoderBin implements RequestDecoder, RequestBinConst {
     int a2 = src.readByte();
     int a1 = src.readByte();
     int a0 = src.readByte();
-    return new Request(RID, x, a3, a2, a1, a0);
+    byte checksum = src.readByte();
+    return new Request(RID, x, a3, a2, a1, a0, checksum);
   }
 
   public Request decode(DatagramPacket p) throws IOException {
