@@ -1,7 +1,7 @@
 import java.io.*; // for Input/OutputStream
 import java.net.*; // for Socket
 
-public class SendTCP {
+public class ClientTCP {
 
   public static void main(String args[]) throws Exception {
 
