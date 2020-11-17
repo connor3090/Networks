@@ -34,15 +34,32 @@ public class RequestDecoderBin implements RequestDecoder, RequestBinConst {
     // ((flags & RICH_FLAG) == RICH_FLAG), ((flags & FEMALE_FLAG) == FEMALE_FLAG));
 
     DataInputStream src = new DataInputStream(wire);
-    int TML = src.readByte();
+    byte tmlByte = src.readByte();
+    int TML = tmlByte;
+    System.out.println("TML: " + String.format("0x%02X", TML));
+
     short RID = src.readShort();
+    System.out.println("RID: " + String.format("0x%04X", RID));
+
     int x = src.readByte();
+    System.out.println("x: " + String.format("0x%02X", x));
+
     int a3 = src.readByte();
+    System.out.println("a3: " + String.format("0x%02X", a3));
+
     int a2 = src.readByte();
+    System.out.println("a2: " + String.format("0x%02X", a2));
+
     int a1 = src.readByte();
+    System.out.println("a1: " + String.format("0x%02X", a1));
+
     int a0 = src.readByte();
-    // byte checksum = src.readByte();
-    return new Request(RID, x, a3, a2, a1, a0, (byte)8);
+    System.out.println("a0: " + String.format("0x%02X", a0));
+
+    byte checksum = src.readByte();
+    System.out.println("Checksum: " + String.format("0x%02X", checksum));
+
+    return new Request(RID, x, a3, a2, a1, a0, checksum);
   }
 
   public Request decode(DatagramPacket p) throws IOException {
