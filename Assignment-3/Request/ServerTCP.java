@@ -21,6 +21,7 @@ public class ServerTCP {
       System.out.println("Received Binary-Encoded Friend");
       System.out.println(receivedRequest);
 
+      clntSock.getInputStream().close();
       clntSock.close();
     }
 

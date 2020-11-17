@@ -1,5 +1,7 @@
 import java.io.*; // for Input/OutputStream
 import java.net.*; // for Socket
+import java.util.Scanner;
+import java.util.Random;
 
 public class ClientTCP {
 
@@ -10,21 +12,70 @@ public class ClientTCP {
 
     InetAddress destAddr = InetAddress.getByName(args[0]); // Destination address
     int destPort = Integer.parseInt(args[1]); // Destination port
+    boolean accept = true;
+    Scanner reader = new Scanner(System.in);
+    Random rand = new Random();
+    short RID = (short) rand.nextInt(Short.MAX_VALUE + 1);
 
-    Socket sock = new Socket(destAddr, destPort);
+    int x;
+    int a0;
+    int a1;
+    int a2;
+    int a3;
+    String yn;
 
-    Request request = new Request((short) 50, 1, 2, 3, 4, 5, (byte) 8);
+    while (accept) {
+      RID++;
+      System.out.print("Enter a value x to solve for: ");
+      x = reader.nextInt();
 
-    System.out.println("Display request");
-    System.out.println(request); // Display friend just to check what we send
+      System.out.print("\nEnter a value for a0: ");
+      a0 = reader.nextInt();
 
-    RequestEncoder encoder = new RequestEncoderBin();
+      System.out.print("\nEnter a value for a1: ");
+      a1 = reader.nextInt();
 
-    System.out.println("Sending Request (Binary)");
-    OutputStream out = sock.getOutputStream(); // Get a handle onto Output Stream
-    out.write(encoder.encode(request)); // Encode and send
+      System.out.print("\nEnter a value for a2: ");
+      a2 = reader.nextInt();
 
-    sock.close();
+      System.out.print("\nEnter a value for a3: ");
+      a3 = reader.nextInt();
 
+      byte[] preChecksum = { 9, (byte) RID, (byte) x, (byte) a3, (byte) a2, (byte) a1, (byte) a0 };
+      byte checksum = checksum(preChecksum);
+      Request request = new Request(RID, x, a3, a2, a1, a0, checksum);
+
+      Socket sock = new Socket(destAddr, destPort);
+      System.out.println("Display request");
+      System.out.println(request); // Display friend just to check what we send
+
+      RequestEncoder encoder = (args.length == 3 ? new RequestEncoderBin(args[2]) : new RequestEncoderBin());
+
+      byte[] codedRequest = encoder.encode(request);
+      OutputStream out = sock.getOutputStream();
+      out.write(codedRequest);
+      sock.close();
+
+      System.out.print("Would you like to send another request? (y/n): ");
+      yn = reader.next();
+
+      if (!yn.equals("y")) {
+        accept = false;
+      }
+    }
+
+  }
+
+  public static byte checksum(byte[] message) {
+    short checksum = 0x0;
+    for (byte b : message) {
+      checksum += b;
+      if (checksum > 0xFF) {
+        checksum -= 0x100;
+        checksum += 0x1;
+      }
+    }
+
+    return (byte) ~checksum;
   }
 }

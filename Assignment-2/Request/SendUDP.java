@@ -40,10 +40,10 @@ public class SendUDP {
       System.out.print("\nEnter a value for a3: ");
       a3 = reader.nextInt();
       
-      byte[] preChecksum = {9, (byte)RID, x, a3, a2, a1, a0);
+      byte[] preChecksum = {9, (byte)RID, (byte)x, a3, a2, a1, a0);
       byte checksum = checksum(preChecksum);
       
-      Request request = new Request(RID, x, a3, a2, a1, a0);
+      Request request = new Request(RID, x, a3, a2, a1, a0, checksum);
 
       DatagramSocket sock = new DatagramSocket(); // UDP socket for sending
 
@@ -57,25 +57,32 @@ public class SendUDP {
 
       sock.close();
 
-      System.out.print("Would you like to send another request? (yes/no): ");
+      System.out.println("Would you like to send another request? (yes/no): ");
       yn = reader.next();
-      System.out.println(yn);
-      if (!yn.equals("yes")) {
+      
+      while(!yn.equals("yes") || !yn.equals("no")) {
+        System.out.println("Please enter yes or no: ");
+        yn = reader.next();
+      }
+      if (yn.equals("no")) {
         accept = false;
       }
+      
+      
       RID++;
     }
   }
-    public static byte checksum(byte[] message) {
-        short checksum = 0x0;
-        for (byte b : message) {
-            checksum += b;
-            if (checksum > 0xFF) {
-                checksum -= 0x100;
-                checksum += 0x1;
-            }
-        }
 
-        return (byte)~checksum;
+  public static byte checksum(byte[] message) {
+    short checksum = 0x0;
+    for (byte b : message) {
+      checksum += b;
+      if (checksum > 0xFF) {
+        checksum -= 0x100;
+        checksum += 0x1;
+      }
     }
+
+    return (byte) ~checksum;
+  }
 }
