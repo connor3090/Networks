@@ -18,7 +18,7 @@ public class ServerTCP {
       RequestDecoder decoder = new RequestDecoderBin();
       Request receivedRequest = decoder.decode(clntSock.getInputStream());
 
-      System.out.println("Received Binary-Encoded Friend");
+      System.out.println("Received Binary-Encoded Request");
       System.out.println(receivedRequest);
 
       clntSock.getInputStream().close();
