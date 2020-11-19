@@ -24,6 +24,7 @@ public class ClientTCP {
     int a3;
     String yn;
 
+
     while (accept) {
       RID++;
       System.out.print("Enter a value x to solve for: ");
@@ -45,16 +46,34 @@ public class ClientTCP {
       byte checksum = checksum(preChecksum);
       Request request = new Request(RID, x, a3, a2, a1, a0, checksum);
 
-      Socket sock = new Socket(destAddr, destPort);
-      System.out.println("Display request");
-      System.out.println(request); // Display friend just to check what we send
-
       RequestEncoder encoder = (args.length == 3 ? new RequestEncoderBin(args[2]) : new RequestEncoderBin());
 
       byte[] codedRequest = encoder.encode(request);
+
+      Socket sock = new Socket(destAddr, destPort);
+
       OutputStream out = sock.getOutputStream();
+      InputStream in = sock.getInputStream();
+      long startTime = System.currentTimeMillis();
       out.write(codedRequest);
-      sock.close();
+      
+      ResponseDecoder decoder = (args.length == 3 ? new ResponseDecoderBin(args[2]) : new ResponseDecoderBin());
+      Response decodedResponse = decoder.decode(in);
+      long endTime = System.currentTimeMillis();
+      long elapsedTime = endTime - startTime;
+      
+      StringBuilder sb = new StringBuilder();
+      for (byte b : codedRequest) {
+        sb.append(String.format("%02X ", b));
+      }
+
+      System.out.println("\n\nEncoded sent message in hexadecimal: \n" + sb.toString() + "\n\n");
+      System.out.println("Sent Message: ");
+      System.out.println(request.toString());
+
+      System.out.println("\nResult: P(x) = " + decodedResponse.result);
+
+      System.out.println("Round trip time: " + elapsedTime + "ms\n");
 
       System.out.print("Would you like to send another request? (y/n): ");
       yn = reader.next();
@@ -62,7 +81,9 @@ public class ClientTCP {
       if (!yn.equals("y")) {
         accept = false;
       }
+      sock.close();
     }
+    
 
   }
 

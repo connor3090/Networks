@@ -22,7 +22,7 @@ public class ResponseEncoderBin implements ResponseBinConst, ResponseEncoder{
         out.writeByte(9);
         out.writeShort(response.RID);
         out.writeByte(response.errorCode);
-        out.writeFloat((float)response.result);
+        out.writeInt(response.result);
         out.writeByte(response.checksum);
         out.flush();
 

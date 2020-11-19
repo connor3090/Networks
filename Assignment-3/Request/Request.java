@@ -37,6 +37,7 @@ public class Request {
         }
         value += "Solving for x = " + x + EOLN;
         value += "Request ID = " + RID;
+
         return value;
     }
 }

@@ -6,13 +6,13 @@ public class RequestTest {
 
     private static void ShouldTestToString() {
         short ID = 200;
-        Request r = new Request(ID, 1, 2, 3, 4, 5);
+        Request r = new Request(ID, 1, 2, 3, 4, 5, (byte)1);
         System.out.println(r.toString());
     }
 
     private static void ShouldTestEncode() throws Exception {
         short ID = 128;
-        Request r = new Request(ID, 1, 2, 3, 4, 5);
+        Request r = new Request(ID, 1, 2, 3, 4, 5, (byte)1);
         RequestEncoder encoder = new RequestEncoderBin();
         byte[] codedRequest = encoder.encode(r);
         int TML = codedRequest[0];
@@ -22,7 +22,7 @@ public class RequestTest {
 
     private static void ShouldTestDecode() throws Exception {
         short ID = 128;
-        Request r = new Request(ID, 1, 2, 3, 4, 5);
+        Request r = new Request(ID, 1, 2, 3, 4, 5, (byte)1);
         RequestEncoder encoder = new RequestEncoderBin();
         byte[] codedRequest = encoder.encode(r);
         DatagramPacket packet = new DatagramPacket(codedRequest, codedRequest.length);
